@@ -1,30 +1,30 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace TrashManagement.Data.Migrations
+namespace TrashManagement.Migrations
 {
-    public partial class additionaltables2 : Migration
+    public partial class initial2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "295b6c2a-f8cf-471e-b012-f4b6b34725b7");
+                keyValue: "624b2a53-2891-4047-a5ba-4abc5cd7e159");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "d3b46ba7-a1a1-45f7-856d-5e393f623d6d");
+                keyValue: "f62181e2-4573-4400-a58f-f7ecef11023c");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "d061399a-62bf-4377-b2d5-e3e1da86e7de", "0f8d1900-3737-442e-90fa-38b9fc89a7f9", "Customer", "CUSTOMER" });
+                values: new object[] { "9f5ae7f6-4029-40da-ab50-866a08ecc4ec", "c84c6260-f3ef-4fc6-874f-985e450a6133", "Customer", "CUSTOMER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "89a2dba8-337d-4d8b-93f5-8e775a8cee3f", "26a9adea-a0e1-43b4-82dc-c77f4b05e221", "Employee", "EMPLOYEE" });
+                values: new object[] { "ade454cd-b14c-4ac5-a215-0a99e01f2763", "6bbd84c9-f765-4148-837c-82cc94463f10", "Employee", "EMPLOYEE" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -32,22 +32,22 @@ namespace TrashManagement.Data.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "89a2dba8-337d-4d8b-93f5-8e775a8cee3f");
+                keyValue: "9f5ae7f6-4029-40da-ab50-866a08ecc4ec");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "d061399a-62bf-4377-b2d5-e3e1da86e7de");
+                keyValue: "ade454cd-b14c-4ac5-a215-0a99e01f2763");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "d3b46ba7-a1a1-45f7-856d-5e393f623d6d", "8541dc1d-821b-48f0-8cd9-b0fcf21ea313", "Customer", "CUSTOMER" });
+                values: new object[] { "f62181e2-4573-4400-a58f-f7ecef11023c", "794f2894-a688-492c-9924-c268f66331aa", "Customer", "CUSTOMER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "295b6c2a-f8cf-471e-b012-f4b6b34725b7", "1cfe015c-5641-4ca4-ae68-0ca364f10621", "Employee", "EMPLOYEE" });
+                values: new object[] { "624b2a53-2891-4047-a5ba-4abc5cd7e159", "3d3b4040-dc04-441f-8359-a16576da4c7a", "Employee", "EMPLOYEE" });
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,24 +10,23 @@ using TrashManagement.Models;
 
 namespace TrashManagement.Controllers
 {
-    [Authorize(Roles = "Customer")]
-    public class CustomersController : Controller
+    public class PickupsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CustomersController(ApplicationDbContext context)
+        public PickupsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Customers
+        // GET: Pickups
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Customer.Include(c => c.IdentityUser);
+            var applicationDbContext = _context.Pickup.Include(p => p.Customer).Include(p => p.Employee);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Customers/Details/5
+        // GET: Pickups/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,42 +34,45 @@ namespace TrashManagement.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customer
-                .Include(c => c.IdentityUser)
+            var pickup = await _context.Pickup
+                .Include(p => p.Customer)
+                .Include(p => p.Employee)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            if (pickup == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(pickup);
         }
 
-        // GET: Customers/Create
+        // GET: Pickups/Create
         public IActionResult Create()
         {
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "Id", "Id");
+            ViewData["EmployeeId"] = new SelectList(_context.Employee, "Id", "Id");
             return View();
         }
 
-        // POST: Customers/Create
+        // POST: Pickups/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,IdentityUserId")] Customer customer)
+        public async Task<IActionResult> Create([Bind("Id,TimeScheduled,TimeCompleted,CustomerId,EmployeeId")] Pickup pickup)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(customer);
+                _context.Add(pickup);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
-            return View(customer);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "Id", "Id", pickup.CustomerId);
+            ViewData["EmployeeId"] = new SelectList(_context.Employee, "Id", "Id", pickup.EmployeeId);
+            return View(pickup);
         }
 
-        // GET: Customers/Edit/5
+        // GET: Pickups/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -79,23 +80,24 @@ namespace TrashManagement.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customer.FindAsync(id);
-            if (customer == null)
+            var pickup = await _context.Pickup.FindAsync(id);
+            if (pickup == null)
             {
                 return NotFound();
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
-            return View(customer);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "Id", "Id", pickup.CustomerId);
+            ViewData["EmployeeId"] = new SelectList(_context.Employee, "Id", "Id", pickup.EmployeeId);
+            return View(pickup);
         }
 
-        // POST: Customers/Edit/5
+        // POST: Pickups/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,IdentityUserId")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TimeScheduled,TimeCompleted,CustomerId,EmployeeId")] Pickup pickup)
         {
-            if (id != customer.Id)
+            if (id != pickup.Id)
             {
                 return NotFound();
             }
@@ -104,12 +106,12 @@ namespace TrashManagement.Controllers
             {
                 try
                 {
-                    _context.Update(customer);
+                    _context.Update(pickup);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerExists(customer.Id))
+                    if (!PickupExists(pickup.Id))
                     {
                         return NotFound();
                     }
@@ -120,11 +122,12 @@ namespace TrashManagement.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
-            return View(customer);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "Id", "Id", pickup.CustomerId);
+            ViewData["EmployeeId"] = new SelectList(_context.Employee, "Id", "Id", pickup.EmployeeId);
+            return View(pickup);
         }
 
-        // GET: Customers/Delete/5
+        // GET: Pickups/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -132,31 +135,32 @@ namespace TrashManagement.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customer
-                .Include(c => c.IdentityUser)
+            var pickup = await _context.Pickup
+                .Include(p => p.Customer)
+                .Include(p => p.Employee)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            if (pickup == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(pickup);
         }
 
-        // POST: Customers/Delete/5
+        // POST: Pickups/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var customer = await _context.Customer.FindAsync(id);
-            _context.Customer.Remove(customer);
+            var pickup = await _context.Pickup.FindAsync(id);
+            _context.Pickup.Remove(pickup);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CustomerExists(int id)
+        private bool PickupExists(int id)
         {
-            return _context.Customer.Any(e => e.Id == id);
+            return _context.Pickup.Any(e => e.Id == id);
         }
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrashManagement.Data;
 
-namespace TrashManagement.Data.Migrations
+namespace TrashManagement.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200424020441_initial2")]
+    partial class initial2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,15 +50,15 @@ namespace TrashManagement.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0c8071fa-d95f-48e7-87e9-119d00769bb2",
-                            ConcurrencyStamp = "75cda003-003f-4a8d-b756-b25820d40615",
+                            Id = "9f5ae7f6-4029-40da-ab50-866a08ecc4ec",
+                            ConcurrencyStamp = "c84c6260-f3ef-4fc6-874f-985e450a6133",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "c8d90695-b673-428b-a321-880ef6037bd9",
-                            ConcurrencyStamp = "e4b5b98d-5c76-4722-9c62-9146499dfaed",
+                            Id = "ade454cd-b14c-4ac5-a215-0a99e01f2763",
+                            ConcurrencyStamp = "6bbd84c9-f765-4148-837c-82cc94463f10",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -264,8 +266,8 @@ namespace TrashManagement.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Zip")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Zip")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

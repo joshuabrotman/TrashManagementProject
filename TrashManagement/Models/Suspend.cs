@@ -13,7 +13,7 @@ namespace TrashManagement.Models
         public DateTime SuspendStart { get; set; }
         public DateTime SuspendEnd { get; set; }
 
-        [ForeignKey("Customer")] public string CustomerId { get; set; }
+        [ForeignKey("Customer")] public int CustomerId { get; set; }
         public Customer Customer { get; set; }
 
     }

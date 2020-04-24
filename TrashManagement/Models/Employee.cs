@@ -12,7 +12,7 @@ namespace TrashManagement.Models
     {
         [Key] public int Id { get; set; }
         public string Name { get; set; }
-        public string Zip { get; set; }
+        public int Zip { get; set; }
 
         [ForeignKey("IdentityUser")] public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }

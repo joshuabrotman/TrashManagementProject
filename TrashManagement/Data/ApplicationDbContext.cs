@@ -26,5 +26,11 @@ namespace TrashManagement.Data
         public DbSet<TrashManagement.Models.Customer> Customer { get; set; }
 
         public DbSet<TrashManagement.Models.Employee> Employee { get; set; }
+
+        public DbSet<TrashManagement.Models.Address> Address { get; set; }
+
+        public DbSet<TrashManagement.Models.Pickup> Pickup { get; set; }
+
+        public DbSet<TrashManagement.Models.Suspend> Suspend { get; set; }
     }
 }

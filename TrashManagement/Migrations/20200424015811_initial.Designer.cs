@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrashManagement.Data;
 
-namespace TrashManagement.Data.Migrations
+namespace TrashManagement.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200424000128_addedEmployee")]
-    partial class addedEmployee
+    [Migration("20200424015811_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,15 +50,15 @@ namespace TrashManagement.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "00e69852-0ee1-4818-a98b-c86d40226b14",
-                            ConcurrencyStamp = "393bf390-9efa-45c4-8972-c93e32d2e9dc",
+                            Id = "f62181e2-4573-4400-a58f-f7ecef11023c",
+                            ConcurrencyStamp = "794f2894-a688-492c-9924-c268f66331aa",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "e683044d-c1c7-4300-bf98-0be77caa9747",
-                            ConcurrencyStamp = "e5d6940f-7fb5-4136-999e-469ad54a1eab",
+                            Id = "624b2a53-2891-4047-a5ba-4abc5cd7e159",
+                            ConcurrencyStamp = "3d3b4040-dc04-441f-8359-a16576da4c7a",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -265,6 +265,9 @@ namespace TrashManagement.Data.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Zip")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
