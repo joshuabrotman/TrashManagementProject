@@ -141,6 +141,7 @@ namespace TrashManagement.Controllers
                 customer.suspendEnd = collection.suspendEnd;
                 customer.suspendStart = collection.suspendStart;
                 customer.zipCode = collection.zipCode;
+                customer.monthlyBalance = collection.monthlyBalance;
                 
                 _context.SaveChanges();
 

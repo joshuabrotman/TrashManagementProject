@@ -42,8 +42,13 @@
         <td class="tg-0lax">@Html.DisplayFor(model => model.suspendEnd)</td>
 
     </tr>
+    <tr>
+        <td class="tg-0lax">Suspend End:</td>
+        <td class="tg-0lax">@Html.DisplayFor(model => model.monthlyBalance)</td>
 
-    <tr class="tg-0lax"><td><a asp-action="Edit" asp-route-id="@Model.Id">Edit Details</a></td> </tr>
+    </tr>
+
+    <tr class="tg-0lax"><td><a asp-action="Edit" asp-route-id="@Model.Id">Edit Details</a></td><td><a asp-action="Edit" asp-route-id="@Model.Id">Schedule Monthly Pickup</a></td> </tr>
 </table>
 
 

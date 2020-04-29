@@ -19,6 +19,8 @@ namespace TrashManagement.Models
         public string street { get; set; }
         public int zipCode { get; set; }
 
+        public int monthlyBalance { get; set; }
+
 
         [ForeignKey("IdentityUser")] public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
