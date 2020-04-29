@@ -86,57 +86,107 @@ namespace TrashManagement.Controllers
         }
 
         // GET: Customers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var customer = await _context.Customer.FindAsync(id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
+        //    var customer = await _context.Customer.FindAsync(id);
+        //    if (customer == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
+        //    return View(customer);
+        //}
+
+        // GET: Customer/Edit/5
+        public ActionResult Edit(int id)
+        {
+
+            var customer = _context.Customer.Where(s => s.Id == id).SingleOrDefault();
+            
+
             return View(customer);
+        }
+
+
+
+        //[HttpPost]
+        //public IActionResult Edit(Player player)
+        //{
+        //    // Tracking changes
+        //    var playerInDB = _context.Players.Single(m => m.Id == player.Id);
+        //    playerInDB.FirstName = player.FirstName;
+        //    playerInDB.LastName = player.LastName;
+        //    playerInDB.TeamId = player.TeamId;
+        //    playerInDB.Teams = _context.Teams.ToList();
+        //    _context.SaveChanges();
+        //    return RedirectToAction("Index", "Players");
+        //}
+
+        // POST: Customer/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Models.Customer collection)
+        {
+            try
+            {
+                var customer = _context.Customer.Where(s => s.Id == collection.Id).SingleOrDefault();
+                customer.Name = collection.Name;
+                customer.pickupDay = collection.pickupDay;
+                customer.street = collection.street;
+                customer.suspendEnd = collection.suspendEnd;
+                customer.suspendStart = collection.suspendStart;
+                customer.zipCode = collection.zipCode;
+                
+                _context.SaveChanges();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         // POST: Customers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,IdentityUserId")] Customer customer)
-        {
-            if (id != customer.Id)
-            {
-                return NotFound();
-            }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("Id,Name,IdentityUserId")] Customer customer)
+        //{
+        //    if (id != customer.Id)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(customer);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CustomerExists(customer.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
-            return View(customer);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(customer);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!CustomerExists(customer.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
+        //    return View(customer);
+        //}
 
         // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(int? id)
