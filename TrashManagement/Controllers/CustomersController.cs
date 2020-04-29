@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,11 +22,22 @@ namespace TrashManagement.Controllers
             _context = context;
         }
 
+
+        //// GET: Superhero/Details/5
+        //public IActionResult Details(int superheroID)
+        //{
+        //    var superhero = context.Superhero.Where(s => s.Id == superheroID).SingleOrDefault();
+        //    return View(superhero);
+        //}
+
         // GET: Customers
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var applicationDbContext = _context.Customer.Include(c => c.IdentityUser);
-            return View(await applicationDbContext.ToListAsync());
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customer = _context.Customer.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            return View(customer);
+            //var applicationDbContext = _context.Customer.Include(c => c.IdentityUser);
+            //return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Customers/Details/5
@@ -63,6 +75,8 @@ namespace TrashManagement.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); 
+                customer.IdentityUserId = userId;
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -153,6 +167,16 @@ namespace TrashManagement.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+
+
+        //public async Task<IActionResult> MySettings()
+        //{
+        //    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    var loggedinCustomer = _context.Customer.Where(c => (c.Id).ToString() == userId).SingleOrDefault();
+        //    //var applicationDbContext = _context.Customer.Include(e => e.IdentityUser);
+        //    return View(loggedinCustomer);
+        //}
 
         private bool CustomerExists(int id)
         {

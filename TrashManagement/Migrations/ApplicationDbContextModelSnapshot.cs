@@ -48,15 +48,15 @@ namespace TrashManagement.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8c098cd0-8161-45e2-b9ef-f665822db8c2",
-                            ConcurrencyStamp = "c8c7694d-eef8-46ae-95e1-adbdd401a029",
+                            Id = "005fb73d-28be-4383-ae41-8162ff8f8845",
+                            ConcurrencyStamp = "84c99eea-c99b-49b7-8fd9-0b8134f19cd6",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "cad51a30-b916-403b-a8f0-20ae696e89b4",
-                            ConcurrencyStamp = "ab68969d-7941-4362-83f2-fed616a36e18",
+                            Id = "ff6a0433-1d55-497a-ab0d-446a6ba031c5",
+                            ConcurrencyStamp = "78480907-f43e-4e7e-ad1b-5b70d8b14ab1",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -269,6 +269,21 @@ namespace TrashManagement.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("pickupDay")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("street")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("suspendEnd")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("suspendStart")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("zipCode")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

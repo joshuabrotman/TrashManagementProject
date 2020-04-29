@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -22,7 +23,7 @@ namespace TrashManagement.Controllers
         // GET: Employees
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Employee.Include(e => e.IdentityUser);
+            var applicationDbContext = _context.Customer.Include(e => e.IdentityUser);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -57,16 +58,18 @@ namespace TrashManagement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,IdentityUserId")] Employee employee)
+        public async Task<IActionResult> Create([Bind("Id,Name,IdentityUserId")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(employee);
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); 
+                customer.IdentityUserId = userId;
+                _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", employee.IdentityUserId);
-            return View(employee);
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
+            return View(customer);
         }
 
         // GET: Employees/Edit/5
@@ -77,7 +80,7 @@ namespace TrashManagement.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employee.FindAsync(id);
+            var employee = await _context.Customer.FindAsync(id);
             if (employee == null)
             {
                 return NotFound();
@@ -91,9 +94,9 @@ namespace TrashManagement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,IdentityUserId")] Employee employee)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,IdentityUserId")] Customer customer)
         {
-            if (id != employee.Id)
+            if (id != customer.Id)
             {
                 return NotFound();
             }
@@ -102,12 +105,12 @@ namespace TrashManagement.Controllers
             {
                 try
                 {
-                    _context.Update(employee);
+                    _context.Update(customer);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeeExists(employee.Id))
+                    if (!CustomerExists(customer.Id))
                     {
                         return NotFound();
                     }
@@ -118,8 +121,8 @@ namespace TrashManagement.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", employee.IdentityUserId);
-            return View(employee);
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
+            return View(customer);
         }
 
         // GET: Employees/Delete/5
@@ -155,6 +158,10 @@ namespace TrashManagement.Controllers
         private bool EmployeeExists(int id)
         {
             return _context.Employee.Any(e => e.Id == id);
+        }
+        private bool CustomerExists(int id)
+        {
+            return _context.Customer.Any(c => c.Id == id);
         }
     }
 }
