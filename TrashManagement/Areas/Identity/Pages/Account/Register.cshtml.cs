@@ -99,7 +99,7 @@ namespace TrashManagement.Areas.Identity.Pages.Account
                     }
                     else if (Input.Role == "Employee")
                     {
-                        return RedirectToAction("Create", "Employee");
+                        return RedirectToAction("Create", "Employees");
                     }
                 }
                 foreach (var error in result.Errors)
